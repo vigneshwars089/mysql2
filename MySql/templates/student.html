@@ -1,0 +1,136 @@
+<html>
+   <head>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+      <!-- add d3 from web -->
+      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script>      
+      tdata = JSON.parse({{tempdata|tojson|safe}});
+        tempdata = tdata.data;
+        temptitle = tdata.title;
+        chartType = "LineChart";
+        containerId = "chart1";
+        options = {'title':temptitle};</script>
+      <script type="text/javascript">
+        
+
+
+        google.charts.load('current', {'packages':['corechart']});
+
+// Set a callback for when the API is loaded
+google.charts.setOnLoadCallback(drawChart);
+
+// This is the callback function which actually draws the chart
+
+function drawChart() {
+  google.visualization.drawChart({
+"containerId": containerId,
+"dataTable": tempdata,
+"chartType": chartType,
+"options": options		
+});
+}
+      </script>
+      <!-- <style>  path {
+         stroke: steelblue;
+         stroke-width: 1;
+         fill: none;
+       }
+       .axis {
+         shape-rendering: crispEdges;
+       }
+      
+       .x.axis line {
+         stroke: lightgrey;
+       }
+      
+       .x.axis .minor {
+         stroke-opacity: .5;
+       }
+      
+       .x.axis path {
+         display: none;
+       }
+      
+       .y.axis line, .y.axis path {
+         fill: none;
+         stroke: #000;
+       }</style> -->
+   </head>
+   <body>
+    <div id="chart1"></div>
+
+      
+      {{ chart_data }}
+## Pandas Dataframe plotted with D3
+
+
+   <h1>Normal Query</h1>
+      <form action = "http://localhost:5000/result" method = "POST">
+         <p>Number of times <input type = "number" name = "value" /></p>
+         <input type="radio" name="options" id="option1" value="option1"> Insert </input><br>
+         <input type="radio" name="options" id="option2" value="option2"> Delete </input><br>
+
+         <p><input type = "submit" value = "submit" /></p>
+            <h1>Restricted Query</h1>
+      </form>
+      <form action = "http://localhost:5000/result2" method = "POST">
+
+         <p>Restricted queries</p>
+         <p>Number of times <input type = "number" name = "value" /></p>
+         <input type="radio" name="options" id="option1" value="option1"> Insert </input><br>
+         <input type="radio" name="options" id="option2" value="option2"> Delete </input><br>
+         <p>Condition</p>
+         <input type="radio" name="type" value="ca"> Only in CA
+         <input type="radio" name="type" value="km">  latitide & longitude
+         <input type="radio" name="type" value="mag"> magnitude range
+         <div id="textbox1" style="display: none">
+            <p>latitude<input type="text" name="lat"/></p>
+            <p>longitude<input type="text" name="long"/></p>
+        </div>
+         <div id="textbox2" style="display: none">
+         <p> From:<input type ="number" name="magrange1"  /></p>
+         <p> To:<input type ="number" name="magrange2" /></p>
+        </div>
+
+         <p><input type = "submit" value = "submit" /></p>
+            <p></p>
+      </form>
+
+      <script>
+         $(function() {
+    $('input[name="type"]').on('click', function() {
+        if ($(this).val() == 'km') {
+            $('#textbox1').show();
+            $('#textbox2').hide();
+            
+
+        }
+        if ($(this).val() == 'mag'){
+            $('#textbox1').hide();
+            $('#textbox2').show();
+            
+        }
+        if ($(this).val() == 'ca'){
+            $('#textbox1').hide();
+            $('#textbox2').hide();
+           
+        }
+         });
+      });
+         $(function() {
+           $('input[name="daterange"]').daterangepicker({
+             opens: 'left'
+           }, function(start, end, label) {
+             console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+           });
+         });
+         </script>
+   </body>
+</html>

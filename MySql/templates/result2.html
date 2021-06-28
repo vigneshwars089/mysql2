@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+   <body>
+   <p></p>
+   <p> The time taken to perform the query is </p>
+   <p>Earthquakes Result</p>
+   {% for table in tables %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
+{% endfor %}
+   <!-- <img src={{ result }}> -->
+   <!-- <img src={{ result }}> -->
+   </body>
+</html>
